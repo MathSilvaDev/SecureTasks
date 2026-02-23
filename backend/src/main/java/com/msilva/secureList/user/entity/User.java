@@ -1,5 +1,6 @@
 package com.msilva.secureList.user.entity;
 
+import com.msilva.secureList.role.entity.Role;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -30,4 +32,12 @@ public class User {
 
     @CreationTimestamp
     private Instant createdAt;
+
+    @ManyToMany
+    @JoinTable(
+            name = "tb_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
 }
