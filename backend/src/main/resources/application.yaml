@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: secureList
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+      platform: h2
+
+server:
+  address: 0.0.0.0
+  port: 8080
