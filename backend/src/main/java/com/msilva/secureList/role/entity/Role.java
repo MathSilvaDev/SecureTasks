@@ -1,4 +1,4 @@
-package com.msilva.secureList.role;
+package com.msilva.secureList.role.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
