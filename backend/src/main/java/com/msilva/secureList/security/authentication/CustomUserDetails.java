@@ -18,7 +18,7 @@ public class CustomUserDetails implements UserDetails {
 
     private String email;
     private String password;
-    private List<? extends GrantedAuthority> authorities;
+    private Collection<? extends GrantedAuthority> authorities;
 
     public CustomUserDetails(User user){
         this.id = user.getId();
