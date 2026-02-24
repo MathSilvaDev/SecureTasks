@@ -26,6 +26,11 @@ spring:
       mode: always
       platform: h2
 
+  security:
+    jwt:
+      private-key: classpath:keys/jwt-private.key
+      public-key: classpath:keys/jwt-public.key
+
 server:
   address: 0.0.0.0
   port: 8080

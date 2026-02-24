@@ -9,9 +9,9 @@ import java.security.interfaces.RSAPublicKey;
 @Configuration
 public class JwtConfig {
 
-    @Value("${}")
+    @Value("${spring.security.jwt.public-key}")
     private RSAPublicKey publicKey;
 
-    @Value("${}")
+    @Value("${spring.security.jwt.private-key}")
     private RSAPrivateKey privateKey;
 }
