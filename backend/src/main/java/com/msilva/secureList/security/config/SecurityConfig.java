@@ -5,7 +5,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Configuration
 public class SecurityConfig {
@@ -18,7 +23,7 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .oauth2ResourceServer(oauth2 ->
-                        oauth2.jwt(Customizer.withDefaults())
+                        oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/**").permitAll()
@@ -26,5 +31,24 @@ public class SecurityConfig {
                 );
 
         return http.build();
+    }
+
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter(){
+        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+
+        converter.setJwtGrantedAuthoritiesConverter(jwt -> {
+            List<String> scopes = jwt.getClaimAsStringList("scope");
+
+            if (scopes == null){
+                return List.of();
+            }
+
+            return scopes.stream()
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
+        });
+
+        return converter;
     }
 }
