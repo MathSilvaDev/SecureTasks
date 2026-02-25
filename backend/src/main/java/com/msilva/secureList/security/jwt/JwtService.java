@@ -1,6 +1,7 @@
 package com.msilva.secureList.security.jwt;
 
 import com.msilva.secureList.security.authentication.CustomUserDetails;
+import com.msilva.secureList.security.jwt.dto.TokenData;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -20,7 +21,7 @@ public class JwtService {
         this.jwtEncoder = jwtEncoder;
     }
 
-    public String generateToken(CustomUserDetails customUserDetails){
+    public TokenData generateToken(CustomUserDetails customUserDetails){
 
         Instant now = Instant.now();
 
@@ -36,8 +37,10 @@ public class JwtService {
                 )
                 .build();
 
-        return jwtEncoder
+        String token = jwtEncoder
                 .encode(JwtEncoderParameters.from(claimsSet))
                 .getTokenValue();
+
+        return new TokenData(token, EXPIRES_AT);
     }
 }
