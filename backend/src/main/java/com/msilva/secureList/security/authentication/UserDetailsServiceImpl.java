@@ -1,6 +1,5 @@
 package com.msilva.secureList.security.authentication;
 
-import com.msilva.secureList.user.entity.User;
 import com.msilva.secureList.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
