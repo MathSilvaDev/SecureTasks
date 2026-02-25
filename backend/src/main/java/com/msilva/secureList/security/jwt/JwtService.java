@@ -29,7 +29,7 @@ public class JwtService {
                 .issuer("BACKEND_JAVA(MatheusSilva)")
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(EXPIRES_AT))
-                .subject(customUserDetails.getId().toString())
+                .subject(customUserDetails.getUsername())
                 .claim("roles",
                         customUserDetails.getAuthorities().stream()
                                 .map(GrantedAuthority::getAuthority)
