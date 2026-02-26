@@ -1,5 +1,6 @@
 package com.msilva.secureList.user.entity;
 
+import com.msilva.secureList.common.validation.ValidationConstants;
 import com.msilva.secureList.role.entity.Role;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -24,7 +25,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = ValidationConstants.USERNAME_MAX_LENGTH)
     private String username;
 
     @Column(nullable = false)
