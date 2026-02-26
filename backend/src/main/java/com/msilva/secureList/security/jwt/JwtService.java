@@ -30,7 +30,7 @@ public class JwtService {
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(EXPIRES_AT))
                 .subject(customUserDetails.getUsername())
-                .claim("scope",
+                .claim("roles",
                         customUserDetails.getAuthorities().stream()
                                 .map(GrantedAuthority::getAuthority)
                                 .toList()

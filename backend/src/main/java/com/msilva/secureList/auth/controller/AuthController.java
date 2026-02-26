@@ -1,6 +1,8 @@
 package com.msilva.secureList.auth.controller;
 
+import com.msilva.secureList.auth.dto.request.LoginRequest;
 import com.msilva.secureList.auth.dto.request.RegisterRequest;
+import com.msilva.secureList.auth.dto.response.LoginResponse;
 import com.msilva.secureList.auth.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,5 +25,12 @@ public class AuthController {
 
         authService.register(request);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(
+            @Valid @RequestBody LoginRequest request){
+
+        return ResponseEntity.ok(authService.login(request));
     }
 }

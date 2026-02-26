@@ -7,6 +7,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
@@ -46,15 +47,15 @@ public class SecurityConfig {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
 
         converter.setJwtGrantedAuthoritiesConverter(jwt -> {
-            List<String> scopes = jwt.getClaimAsStringList("scope");
+            List<String> roles = jwt.getClaimAsStringList("roles");
 
-            if (scopes == null){
+            if (roles == null){
                 return List.of();
             }
 
-            return scopes.stream()
-                    .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toList());
+            return roles.stream()
+                    .map(role -> (GrantedAuthority) new SimpleGrantedAuthority(role))
+                    .toList();
         });
 
         return converter;
