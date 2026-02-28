@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class Home {
 
+  listItems: any[] = [];
   title: string = '';
   description: string = '';
 }

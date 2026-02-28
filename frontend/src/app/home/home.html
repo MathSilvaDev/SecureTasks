@@ -20,16 +20,17 @@
     <button>Add Task</button>
 
     <div class="tasks">
-      <div class="task">
-        <div class="task-header">
-          <h3>Build API</h3>
-          <input type="checkbox">
+      @for (item of listItems; track $index) {
+        <div class="task">
+          <div class="task-header">
+            <h3>{{ item.title }}</h3>
+            <input type="checkbox">
+          </div>
+
+          <p>{{ item.description }}</p>
+          <span>Created at: <b>{{ item.createdAt }}</b></span>
         </div>
-
-        <p>Create tasks</p>
-        <span>Created at: <b>0000-00-00</b></span>
-      </div>
-
+      }
     </div>
     
   </div>
