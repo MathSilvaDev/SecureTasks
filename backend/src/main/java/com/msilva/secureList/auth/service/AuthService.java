@@ -41,7 +41,7 @@ public class AuthService {
         }
 
         Role roleBasic = roleRepository.findByName(RoleValues.BASIC.name()).
-                orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                orElseThrow(() -> new IllegalStateException("Default role BASIC not found"));
 
         String hashPassword = passwordEncoder.encode(request.password());
 
