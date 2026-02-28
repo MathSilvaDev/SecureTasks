@@ -7,10 +7,10 @@ import java.time.Instant;
 public record ApiError(
         int error,
         String errorMessage,
-        String message,
+        Object message,
         Instant timeStamp
 ) {
-    ApiError(HttpStatus statusCode, String message){
+    ApiError(HttpStatus statusCode, Object message){
         this(
                 statusCode.value(),
                 statusCode.getReasonPhrase(),
