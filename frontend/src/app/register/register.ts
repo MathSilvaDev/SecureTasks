@@ -34,8 +34,7 @@ export class Register {
       error: (err) => {
         console.error('Registration failed:', err);
       } 
-    })
+    });
   }
 
-  
 }
