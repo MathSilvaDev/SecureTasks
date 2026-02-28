@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { AuthService } from '../auth/auth.service';
 import { NavigateService } from '../navigate.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
-  imports: [RouterLink],
+  imports: [RouterLink, FormsModule],
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
@@ -25,7 +26,7 @@ export class Register {
     const username = this.username.trim();
     const password = this.password.trim();
 
-    this.authService.register(email, username, password).subscribe({
+    this.authService.register(username, email, password).subscribe({
       next: (response) => {
         console.log('Registration successful:', response);
         this.navigateService.goToLogin();

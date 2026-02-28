@@ -1,5 +1,5 @@
 <div class="container">
-  <form class="form">
+  <form (ngSubmit)="register()" class="form">
     <h2>Register</h2>
 
     <input 
@@ -7,18 +7,21 @@
       name="username"
       placeholder="Username"
       required 
+      [(ngModel)]="username"
     >
     <input 
       type="email" 
       name="email"
       placeholder="Email"
       required
+      [(ngModel)]="email"
     >
     <input 
       type="password" 
       name="password"
       placeholder="Password"
       required 
+      [(ngModel)]="password"
     >
 
     <button type="submit">Create Account</button>
