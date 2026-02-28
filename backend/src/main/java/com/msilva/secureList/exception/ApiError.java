@@ -9,8 +9,6 @@ public record ApiError(
         String errorMessage,
         String message,
         Instant timeStamp
-
-
 ) {
     ApiError(HttpStatus statusCode, String message){
         this(
