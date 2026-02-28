@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="form">
+    <h2>My Tasks</h2>
+
+    <input 
+      type="text"
+      name="title"
+      placeholder="Title"
+      required
+      [(ngModel)]="title"
+    >
+    <input 
+      type="text" 
+      name="description"
+      placeholder="Description" 
+      required
+      [(ngModel)]="description"
+    >
+
+    <button>Add Task</button>
+
+    <div class="tasks">
+      <div class="task">
+        <div class="task-header">
+          <h3>Build API</h3>
+          <input type="checkbox">
+        </div>
+
+        <p>Create tasks</p>
+        <span>Created at: <b>0000-00-00</b></span>
+      </div>
+
+    </div>
+    
+  </div>
+</div>
