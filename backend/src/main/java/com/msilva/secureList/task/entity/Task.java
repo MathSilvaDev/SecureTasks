@@ -1,5 +1,6 @@
 package com.msilva.secureList.task.entity;
 
+import com.msilva.secureList.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -28,8 +29,13 @@ public class Task {
     @Column(updatable = false)
     private LocalDate createdAt;
 
-    public Task(String title, String description){
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public Task(String title, String description, User user){
         this.title = title;
         this.description = description;
+        this.user = user;
     }
 }

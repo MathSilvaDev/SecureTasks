@@ -2,6 +2,7 @@ package com.msilva.secureList.user.entity;
 
 import com.msilva.secureList.common.validation.ValidationConstants;
 import com.msilva.secureList.role.entity.Role;
+import com.msilva.secureList.task.entity.Task;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,6 +10,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -42,6 +45,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks = new ArrayList<>();
 
     public User(String email, String username,
                 String password, Set<Role> roles){
