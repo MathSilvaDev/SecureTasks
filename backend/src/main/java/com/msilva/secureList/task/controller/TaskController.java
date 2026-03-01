@@ -19,7 +19,7 @@ public class TaskController {
 
     private final TaskService taskService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<TaskResponse>> findAllByUser(Authentication auth){
         return ResponseEntity
                 .ok(taskService.findAllByUser(auth.getName()));
@@ -31,6 +31,13 @@ public class TaskController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(taskService.create(auth.getName(), request));
+    }
+
+    @PatchMapping("/{id}/completed")
+    public ResponseEntity<Void> toggleCompleted(@PathVariable Long id,
+                                                Authentication auth){
+        taskService.toggleCompleted(id, auth.getName());
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")

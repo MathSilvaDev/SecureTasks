@@ -40,4 +40,8 @@ public class Task {
         this.description = description;
         this.user = user;
     }
+
+    public void toggleCompleted(){
+        isCompleted = !isCompleted;
+    }
 }
