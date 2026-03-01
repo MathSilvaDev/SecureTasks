@@ -5,9 +5,7 @@ import com.msilva.secureList.task.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +20,12 @@ public class TaskController {
     public ResponseEntity<List<TaskResponse>> findAllByUser(Authentication auth){
         return ResponseEntity
                 .ok(taskService.findAllByUser(auth.getName()));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteByIdAndUser(@PathVariable Long id,
+                                                  Authentication auth){
+        taskService.deleteByIdAndUser(id, auth.getName());
+        return ResponseEntity.noContent().build();
     }
 }

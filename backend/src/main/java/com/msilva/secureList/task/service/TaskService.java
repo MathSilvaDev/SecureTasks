@@ -6,8 +6,11 @@ import com.msilva.secureList.task.repository.TaskRepository;
 import com.msilva.secureList.user.entity.User;
 import com.msilva.secureList.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -25,6 +28,15 @@ public class TaskService {
                 .stream()
                 .map(this::toResponse)
                 .toList();
+    }
+
+    @Transactional
+    public void deleteByIdAndUser(Long id, String authEmail){
+        User user = findUserByEmail(authEmail);
+        Task task = taskRepository.findByIdAndUser(id, user)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        taskRepository.delete(task);
     }
 
     private TaskResponse toResponse(Task task){
