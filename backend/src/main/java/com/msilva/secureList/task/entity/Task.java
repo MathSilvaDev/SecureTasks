@@ -25,6 +25,8 @@ public class Task {
     @Column(nullable = false)
     private String description;
 
+    private boolean isCompleted;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDate createdAt;
