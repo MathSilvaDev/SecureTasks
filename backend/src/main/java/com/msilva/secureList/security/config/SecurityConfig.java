@@ -36,7 +36,8 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/tasks/**").authenticated()
+                        .anyRequest().hasRole("ADMIN")
                 );
 
         return http.build();
