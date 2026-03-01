@@ -1,5 +1,6 @@
 package com.msilva.secureList.task.service;
 
+import com.msilva.secureList.task.dto.request.CreateTaskRequest;
 import com.msilva.secureList.task.dto.response.TaskResponse;
 import com.msilva.secureList.task.entity.Task;
 import com.msilva.secureList.task.repository.TaskRepository;
@@ -28,6 +29,20 @@ public class TaskService {
                 .stream()
                 .map(this::toResponse)
                 .toList();
+    }
+
+    @Transactional
+    public TaskResponse create(String authEmail, CreateTaskRequest request){
+        User user = findUserByEmail(authEmail);
+
+        Task task = new Task(
+                request.title(),
+                request.description(),
+                user
+        );
+        taskRepository.save(task);
+
+        return toResponse(task);
     }
 
     @Transactional
