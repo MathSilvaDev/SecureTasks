@@ -10,10 +10,10 @@ export class AuthService {
 
   private readonly API_URL = '/api/auth';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   register(username: string, email: string, password: string): Observable<void> {
-    return this.httpClient.post<void>(`${this.API_URL}/register`, { 
+    return this.http.post<void>(`${this.API_URL}/register`, { 
       username, 
       email, 
       password 
@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<LoginResponse>{
-    return this.httpClient.post<LoginResponse>(`${this.API_URL}/login`, {
+    return this.http.post<LoginResponse>(`${this.API_URL}/login`, {
       email,
       password
     })
