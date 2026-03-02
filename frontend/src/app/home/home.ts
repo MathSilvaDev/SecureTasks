@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TaskResponse } from './model/task-response';
+import { HomeService } from './home.service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +11,38 @@ import { FormsModule } from '@angular/forms';
 })
 export class Home {
 
-  listItems: any[] = [];
+  listItems: TaskResponse[] = [];
   title: string = '';
   description: string = '';
+
+  constructor(private homeService: HomeService) { }
+
+  ngOnInit() {
+    this.loadTasks();
+  }
+  
+  loadTasks(){
+    this.homeService.getAllTasks().subscribe({
+      next: (task) => {
+        this.listItems = task;
+      },
+      error: (err) => {
+        console.error('Error fetching tasks:', err);
+      }
+    });
+  }
+
+  createTask(){
+    const title = this.title.trim();
+    const description = this.description.trim();
+
+    this.homeService.createTask(title, description).subscribe({
+      next: (task) => {
+        this.listItems.push(task);
+      },
+      error: (err) => {
+        console.log('Error for add task', err);
+      }
+    });
+  }
 }

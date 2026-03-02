@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="form">
+  <form (ngSubmit)="createTask()" class="form">
     <h2>My Tasks</h2>
 
     <input 
@@ -17,7 +17,7 @@
       [(ngModel)]="description"
     >
 
-    <button>Add Task</button>
+    <button type="submit">Add Task</button>
 
     <div class="tasks">
       @for (item of listItems; track $index) {
@@ -25,6 +25,7 @@
           <div class="task-header">
             <h3>{{ item.title }}</h3>
             <input type="checkbox">
+            <button >delete</button>
           </div>
 
           <p>{{ item.description }}</p>
@@ -33,5 +34,5 @@
       }
     </div>
     
-  </div>
+  </form>
 </div>
