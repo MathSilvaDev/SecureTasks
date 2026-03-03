@@ -28,17 +28,26 @@ export class AuthService {
   }
 
   setToken(token: string, expiresAt: number): void {
+    if (!token || token === 'undefined' || token === 'null') {
+      return;
+    }
+
     localStorage.setItem('authToken', token);
     localStorage.setItem('tokenExpiresAt', expiresAt.toString());
   }
 
   getToken(): string | null {
     const token = localStorage.getItem('authToken');
+
+    if (!token || token === 'undefined' || token === 'null') {
+      return null;
+    }
     return token;
   }
 
   clearToken(): void {
     localStorage.removeItem('authToken');
+    localStorage.removeItem('tokenExpiresAt');
   }
 
   clearAll(): void {

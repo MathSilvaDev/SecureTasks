@@ -8,7 +8,7 @@ import { TaskResponse } from './model/task-response';
 })
 export class HomeService {
   
-  private readonly API_URL = '/api/tasks'
+  private readonly API_URL = 'http://localhost:8080/api/tasks'
 
   constructor(private http: HttpClient) { }
 
@@ -17,7 +17,7 @@ export class HomeService {
   }
 
   createTask(title: string, description: string): Observable<TaskResponse> {
-    return this.http.post<TaskResponse>(`${this.API_URL}/create`, {
+    return this.http.post<TaskResponse>(`${this.API_URL}`, {
       title,
       description
     })

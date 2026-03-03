@@ -61,3 +61,7 @@ bazel-out/
 # System files
 .DS_Store
 Thumbs.db
+
+# Keys
+jwt-private.key
+jwt-public.key

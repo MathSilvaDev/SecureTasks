@@ -1,6 +1,6 @@
 package com.msilva.secureList.auth.dto.response;
 
 public record LoginResponse(
-        String Token,
+        String token,
         Long expiresAt
 ) { }

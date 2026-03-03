@@ -27,6 +27,8 @@ export class Login {
     this.authService.login(email, password).subscribe({
       next: (response) => {
         console.log('Login successful:', response);
+
+        this.authService.setToken(response.token, response.expiresAt);
         this.navigateService.goToHome();
       },
       error: (err) => {
