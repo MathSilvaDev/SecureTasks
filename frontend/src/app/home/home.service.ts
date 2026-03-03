@@ -8,7 +8,7 @@ import { TaskResponse } from './model/task-response';
 })
 export class HomeService {
   
-  private readonly API_URL = 'http://localhost:8080/api/tasks'
+  private readonly API_URL = '/api/tasks'
 
   constructor(private http: HttpClient) { }
 
@@ -28,7 +28,7 @@ export class HomeService {
   }
 
   deleteTask(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.API_URL}/${id}/delete`);
+    return this.http.delete<void>(`${this.API_URL}/${id}`);
   }
 }
 

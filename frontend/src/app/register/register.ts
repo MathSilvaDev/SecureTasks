@@ -21,6 +21,10 @@ export class Register {
     private navigateService: NavigateService
   ) {}
 
+  ngOnInit(){
+    this.authService.clearAll();
+  }
+
   register() {
     const email = this.email.trim();
     const username = this.username.trim();

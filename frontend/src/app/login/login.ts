@@ -20,6 +20,10 @@ export class Login {
     private navigateService: NavigateService
   ) {}
 
+  ngOnInit(){
+    this.authService.clearAll();
+  }
+
   login() {
     const email = this.email.trim();
     const password = this.password.trim();

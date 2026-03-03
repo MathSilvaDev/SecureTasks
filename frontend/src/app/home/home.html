@@ -18,21 +18,21 @@
     >
 
     <button type="submit">Add Task</button>
-
-  <div class="tasks">
-    @for (item of listItems; track $index) {
-      <div class="task">
-        <button class="delete-btn">x</button>
-        <div class="task-header">
-          <h3>{{ item.title }}</h3>
-          <input type="checkbox">
+    
+    <div class="tasks">
+      @for (item of listItems; track $index) {
+        <div class="task">
+          <button type="button" class="delete-btn" (click)="deleteTask(item.id)">x</button>
+          <div class="task-header">
+            <h3>{{ item.title }}</h3>
+            <input type="checkbox">
+          </div>
+            
+          <p>{{ item.description }}</p>
+          <span>Created at: <b>{{ item.createdAt }}</b></span>
         </div>
-          
-        <p>{{ item.description }}</p>
-        <span>Created at: <b>{{ item.createdAt }}</b></span>
-      </div>"
-    }
-  </div>
+      }
+    </div>
     
   </form>
 </div>

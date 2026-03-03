@@ -17,7 +17,7 @@ export class Home {
 
   constructor(private homeService: HomeService) { }
 
-  ngOnInit() {
+  ngOnInit(){
     this.loadTasks();
   }
   
@@ -44,5 +44,16 @@ export class Home {
         console.log('Error for add task', err);
       }
     });
+  }
+
+  deleteTask(id: number){
+    this.homeService.deleteTask(id).subscribe({
+      next: () => {
+        this.listItems = this.listItems.filter((item) => item.id !== id)
+      },
+      error: (err) => {
+
+      }
+    })
   }
 }
