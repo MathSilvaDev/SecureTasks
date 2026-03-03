@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TaskResponse } from './model/task-response';
 import { HomeService } from './home.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,10 @@ export class Home {
   title: string = '';
   description: string = '';
 
-  constructor(private homeService: HomeService) { }
+  constructor(
+    private homeService: HomeService,
+    protected authService: AuthService
+  ) { }
 
   ngOnInit(){
     this.loadTasks();

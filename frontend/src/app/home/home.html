@@ -1,4 +1,11 @@
 <div class="container">
+  <button 
+    type="button" 
+    class="logout"
+    (click)="authService.logout()">
+    Logout
+  </button>
+
   <form (ngSubmit)="createTask()" class="form">
     <h2>My Tasks</h2>
 

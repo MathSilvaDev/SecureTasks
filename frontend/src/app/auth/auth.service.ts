@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginResponse } from './model/login-response';
+import { NavigateService } from '../navigate.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,10 @@ export class AuthService {
 
   private readonly API_URL = '/api/auth';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private navigateService: NavigateService
+  ) { }
 
   register(username: string, email: string, password: string): Observable<void> {
     return this.http.post<void>(`${this.API_URL}/register`, { 
@@ -53,4 +57,10 @@ export class AuthService {
   clearAll(): void {
     localStorage.clear();
   }
+
+  logout(): void{
+    this.clearAll();
+    this.navigateService.goToLogin();
+  }
+
 }
