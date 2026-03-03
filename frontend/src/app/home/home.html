@@ -22,10 +22,20 @@
     <div class="tasks">
       @for (item of listItems; track $index) {
         <div class="task">
-          <button type="button" class="delete-btn" (click)="deleteTask(item.id)">x</button>
+          <button 
+            type="button" 
+            class="delete-btn" 
+            (click)="deleteTask(item.id)">
+            x
+          </button>
           <div class="task-header">
             <h3>{{ item.title }}</h3>
-            <input type="checkbox">
+            <input
+              type="checkbox"
+              name="isCompleted"
+              (change)="completeTask(item.id)"
+              [checked]="item.isCompleted"
+            >
           </div>
             
           <p>{{ item.description }}</p>

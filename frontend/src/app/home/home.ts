@@ -52,7 +52,15 @@ export class Home {
         this.listItems = this.listItems.filter((item) => item.id !== id)
       },
       error: (err) => {
+        console.log('Error for delete task', err);
+      }
+    })
+  }
 
+  completeTask(id: number){
+    this.homeService.completeTask(id).subscribe({
+      error: (err) => {
+        console.log('Error for toggle task', err);
       }
     })
   }
