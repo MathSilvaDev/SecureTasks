@@ -21,8 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Set;
-
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -69,6 +67,6 @@ public class AuthService {
                 (CustomUserDetails) authentication.getPrincipal()
         );
 
-        return new LoginResponse(tokenData.token(), tokenData.ExpiresAt());
+        return new LoginResponse(tokenData.token(), tokenData.expiresAt());
     }
 }

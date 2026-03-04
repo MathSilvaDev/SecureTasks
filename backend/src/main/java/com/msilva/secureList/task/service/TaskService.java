@@ -48,7 +48,7 @@ public class TaskService {
     @Transactional
     public void toggleCompleted(Long id, String authEmail){
         User user = findUserByEmail(authEmail);
-        Task task = findByIdAndUser(id, user);
+        Task task = findTaskByIdAndUser(id, user);
 
         task.toggleCompleted();
     }
@@ -56,7 +56,7 @@ public class TaskService {
     @Transactional
     public void deleteByIdAndUser(Long id, String authEmail){
         User user = findUserByEmail(authEmail);
-        Task task = findByIdAndUser(id, user);
+        Task task = findTaskByIdAndUser(id, user);
 
         taskRepository.delete(task);
     }
@@ -76,7 +76,7 @@ public class TaskService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not Found"));
     }
 
-    private Task findByIdAndUser(Long id, User user){
+    private Task findTaskByIdAndUser(Long id, User user){
         return taskRepository.findByIdAndUser(id, user)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
