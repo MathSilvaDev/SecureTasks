@@ -43,6 +43,9 @@ export class Home {
     this.homeService.createTask(title, description).subscribe({
       next: (task) => {
         this.listItems.push(task);
+
+        this.title = '';
+        this.description = '';
       },
       error: (err) => {
         console.log('Error for add task', err);
