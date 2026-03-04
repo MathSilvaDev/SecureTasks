@@ -13,7 +13,7 @@ import java.time.Instant;
 @Service
 public class JwtService {
 
-    private static final long EXPIRES_AT = 300L;
+    private static final long EXPIRES_AT = 60L * 60L * 24L;
 
     private final JwtEncoder jwtEncoder;
 
