@@ -1,6 +1,6 @@
 package com.msilva.secureList.role.enums;
 
-public enum RoleValues {
+public enum RoleName {
     ADMIN,
     BASIC
 }

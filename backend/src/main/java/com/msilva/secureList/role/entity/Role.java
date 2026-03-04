@@ -1,5 +1,6 @@
 package com.msilva.secureList.role.entity;
 
+import com.msilva.secureList.role.enums.RoleName;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,9 +17,10 @@ public class Role {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private RoleName name;
 
-    public Role(String name){
+    public Role(RoleName name){
         this.name = name;
     }
 }

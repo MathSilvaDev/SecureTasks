@@ -4,7 +4,7 @@ import com.msilva.secureList.auth.dto.request.LoginRequest;
 import com.msilva.secureList.auth.dto.request.RegisterRequest;
 import com.msilva.secureList.auth.dto.response.LoginResponse;
 import com.msilva.secureList.role.entity.Role;
-import com.msilva.secureList.role.enums.RoleValues;
+import com.msilva.secureList.role.enums.RoleName;
 import com.msilva.secureList.role.repository.RoleRepository;
 import com.msilva.secureList.security.authentication.CustomUserDetails;
 import com.msilva.secureList.security.jwt.JwtService;
@@ -40,7 +40,7 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
 
-        Role roleBasic = roleRepository.findByName(RoleValues.BASIC.name()).
+        Role roleBasic = roleRepository.findByName(RoleName.BASIC).
                 orElseThrow(() -> new IllegalStateException("Default role BASIC not found"));
 
         String hashPassword = passwordEncoder.encode(request.password());
