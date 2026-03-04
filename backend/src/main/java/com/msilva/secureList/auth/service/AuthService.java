@@ -48,9 +48,10 @@ public class AuthService {
         User user = new User(
                 request.email(),
                 request.username(),
-                hashPassword,
-                Set.of(roleBasic)
+                hashPassword
         );
+
+        user.addRole(roleBasic);
 
         userRepository.save(user);
     }

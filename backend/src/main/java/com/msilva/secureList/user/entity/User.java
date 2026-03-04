@@ -10,10 +10,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_user")
@@ -44,17 +41,18 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<>();
 
-    public User(String email, String username,
-                String password, Set<Role> roles){
-
+    public User(String email, String username, String password){
         this.email = email;
         this.username = username;
         this.password = password;
-        this.roles = roles;
+    }
+
+    public void addRole(Role role){
+        roles.add(role);
     }
 }
