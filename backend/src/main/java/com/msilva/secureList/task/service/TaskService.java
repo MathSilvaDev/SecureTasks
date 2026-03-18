@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -22,18 +23,18 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
 
-    public List<TaskResponse> findAllByUser(String authEmail){
-        User user = findUserByEmail(authEmail);
+    public List<TaskResponse> findAllByUser(UUID userId){
 
-        return taskRepository.findAllByUser(user)
+        return taskRepository.findAllByUserId(userId)
                 .stream()
                 .map(this::toResponse)
                 .toList();
     }
 
     @Transactional
-    public TaskResponse create(String authEmail, CreateTaskRequest request){
-        User user = findUserByEmail(authEmail);
+    public TaskResponse create(UUID userId, CreateTaskRequest request){
+
+        User user = findUserById(userId);
 
         Task task = new Task(
                 request.title(),
@@ -46,17 +47,15 @@ public class TaskService {
     }
 
     @Transactional
-    public void toggleCompleted(Long id, String authEmail){
-        User user = findUserByEmail(authEmail);
-        Task task = findTaskByIdAndUser(id, user);
+    public void toggleCompleted(Long id, UUID userId){
+        Task task = findTaskByIdAndUserId(id, userId);
 
         task.toggleCompleted();
     }
 
     @Transactional
-    public void deleteByIdAndUser(Long id, String authEmail){
-        User user = findUserByEmail(authEmail);
-        Task task = findTaskByIdAndUser(id, user);
+    public void deleteByIdAndUser(Long id, UUID userId){
+        Task task = findTaskByIdAndUserId(id, userId);
 
         taskRepository.delete(task);
     }
@@ -71,13 +70,16 @@ public class TaskService {
         );
     }
 
-    private User findUserByEmail(String email){
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not Found"));
+    private User findUserById(UUID userId){
+        return userRepository.findById(userId)
+                .orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
+                );
     }
 
-    private Task findTaskByIdAndUser(Long id, User user){
-        return taskRepository.findByIdAndUser(id, user)
+    private Task findTaskByIdAndUserId(Long id, UUID userId){
+        return taskRepository.findByIdAndUserId(id, userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
 }

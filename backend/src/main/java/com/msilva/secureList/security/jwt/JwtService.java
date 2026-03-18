@@ -1,8 +1,10 @@
 package com.msilva.secureList.security.jwt;
 
-import com.msilva.secureList.security.authentication.CustomUserDetails;
+import com.msilva.secureList.role.entity.Role;
 import com.msilva.secureList.security.jwt.dto.TokenData;
+import com.msilva.secureList.user.entity.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -21,7 +23,7 @@ public class JwtService {
         this.jwtEncoder = jwtEncoder;
     }
 
-    public TokenData generateToken(CustomUserDetails customUserDetails){
+    public TokenData generateToken(User user){
 
         Instant now = Instant.now();
 
@@ -29,10 +31,11 @@ public class JwtService {
                 .issuer("BACKEND_JAVA(MatheusSilva)")
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(EXPIRES_AT))
-                .subject(customUserDetails.getUsername())
+                .subject(user.getEmail())
+                .claim("userId", user.getId().toString())
                 .claim("roles",
-                        customUserDetails.getAuthorities().stream()
-                                .map(GrantedAuthority::getAuthority)
+                        user.getRoles().stream()
+                                .map(role -> "ROLE_" + role.getName())
                                 .toList()
                 )
                 .build();

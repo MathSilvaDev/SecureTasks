@@ -2,31 +2,31 @@
   <form (ngSubmit)="register()" class="form">
     <h2>Register</h2>
 
-    <input 
-      type="text" 
+    <input
+      type="text"
       name="username"
-      placeholder="Username"
-      required 
+      placeholder="Username - Minimum: 3 characters"
+      required
       [(ngModel)]="username"
     >
-    <input 
-      type="email" 
+    <input
+      type="email"
       name="email"
       placeholder="Email"
       required
       [(ngModel)]="email"
     >
-    <input 
-      type="password" 
+    <input
+      type="password"
       name="password"
-      placeholder="Password"
-      required 
+      placeholder="Password - Minimum: 8 characters"
+      required
       [(ngModel)]="password"
     >
 
     <button type="submit">Create Account</button>
 
-    <p>Already have an account? 
+    <p>Already have an account?
       <a [routerLink]="['/login']">Login</a>
     </p>
   </form>

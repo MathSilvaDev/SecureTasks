@@ -8,9 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -19,31 +21,47 @@ public class TaskController {
 
     private final TaskService taskService;
 
+
+    private UUID getAuthUserId(Authentication auth){
+        return UUID.fromString(
+                ((Jwt)auth.getPrincipal()).getClaim("userId")
+        );
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<TaskResponse>> findAllByUser(Authentication auth){
+
+        UUID userId = getAuthUserId(auth);
+
         return ResponseEntity
-                .ok(taskService.findAllByUser(auth.getName()));
+                .ok(taskService.findAllByUser(userId));
     }
 
     @PostMapping
     public ResponseEntity<TaskResponse> create(Authentication auth,
                                                @Valid @RequestBody CreateTaskRequest request){
+        UUID userId = getAuthUserId(auth);
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(taskService.create(auth.getName(), request));
+                .body(taskService.create(userId, request));
     }
 
     @PatchMapping("/{id}/completed")
     public ResponseEntity<Void> toggleCompleted(@PathVariable Long id,
                                                 Authentication auth){
-        taskService.toggleCompleted(id, auth.getName());
+        UUID userId = getAuthUserId(auth);
+
+        taskService.toggleCompleted(id, userId);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteByIdAndUser(@PathVariable Long id,
                                                   Authentication auth){
-        taskService.deleteByIdAndUser(id, auth.getName());
+        UUID userId = getAuthUserId(auth);
+
+        taskService.deleteByIdAndUser(id, userId);
         return ResponseEntity.noContent().build();
     }
 }

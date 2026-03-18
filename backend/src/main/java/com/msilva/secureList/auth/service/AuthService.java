@@ -6,7 +6,6 @@ import com.msilva.secureList.auth.dto.response.LoginResponse;
 import com.msilva.secureList.role.entity.Role;
 import com.msilva.secureList.role.enums.RoleName;
 import com.msilva.secureList.role.repository.RoleRepository;
-import com.msilva.secureList.security.authentication.CustomUserDetails;
 import com.msilva.secureList.security.jwt.JwtService;
 import com.msilva.secureList.security.jwt.dto.TokenData;
 import com.msilva.secureList.user.entity.User;
@@ -16,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,9 +63,12 @@ public class AuthService {
                 )
         );
 
-        TokenData tokenData = jwtService.generateToken(
-                (CustomUserDetails) authentication.getPrincipal()
-        );
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        User user = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow();
+
+        TokenData tokenData = jwtService.generateToken(user);
 
         return new LoginResponse(tokenData.token(), tokenData.expiresAt());
     }
