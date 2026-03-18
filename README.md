@@ -17,7 +17,8 @@ Each user has their own tasks and can create, list, mark as completed, and delet
 * Spring Security
 * OAuth2 Resource Server
 * JWT (RSA)
-* H2 Database
+* PostgreSQL
+* Docker (PostgreSQL container)
 
 ### Frontend
 
@@ -52,6 +53,7 @@ Install:
 * npm 11
 * Angular CLI
 * OpenSSL
+* Docker
 
 ---
 
@@ -81,18 +83,50 @@ openssl rsa -in jwt-private.key -pubout -out jwt-public.key
 
 ## 🗄️ Database
 
-The project uses **H2** (in-memory) by default.
+The project uses PostgreSQL as the main database, running in a Docker container.
 
-To change it:
+### Configuration
 
-* Edit `application.yaml`
-* Configure another database (e.g., MySQL)
+- Host: localhost
+- Port: 5432
+- Database: securelist
+- Username: postgres
+- Password: postgres
+
+### Docker Setup
+
+The database configuration is located at:
+
+backend/docker/docker-compose.yaml
+
+The container is based on PostgreSQL and is automatically configured with the credentials above.
+
+### Notes
+
+- The database must be running before starting the backend
+- Tables are automatically created by Hibernate (`ddl-auto: update`)
+
 
 ---
 
-## ▶️ Running the Project
+Follow the steps below to run the full application.
 
-### Backend (Spring Boot)
+---
+
+### 1. 🗄️ Start Database (Docker)
+
+Inside the backend folder:
+
+```
+cd docker
+```
+```
+docker compose up -d
+```
+
+---
+
+### 2. ⚙️ Run Backend (Spring Boot)
 
 Run the application:
 
@@ -100,9 +134,9 @@ Run the application:
 ./mvnw spring-boot:run
 ```
 
-or directly from your IDE.
+Or run directly from your IDE.
 
-Server:
+Backend will be available at:
 
 ```
 http://localhost:8080
@@ -110,16 +144,18 @@ http://localhost:8080
 
 ---
 
-### Frontend (Angular)
+### 3. 🌐 Run Frontend (Angular)
 
 Inside the frontend folder:
 
 ```
 npm install
+```
+```
 ng serve
 ```
 
-Access:
+Frontend will be available at:
 
 ```
 http://localhost:4200
@@ -127,9 +163,9 @@ http://localhost:4200
 
 ---
 
-## 🌐 CORS
+### 4. 🔐 CORS Configuration (Optional)
 
-If needed, update in backend:
+If you need to allow frontend access from another origin, update in backend:
 
 ```
 config.setAllowedOrigins(List.of(
@@ -137,6 +173,12 @@ config.setAllowedOrigins(List.of(
   "http://YOUR_IP:4200"
 ));
 ```
+
+### Summary
+
+1. Start database (Docker)
+2. Run backend (Spring Boot)
+3. Run frontend (Angular)
 
 ---
 
@@ -149,6 +191,7 @@ config.setAllowedOrigins(List.of(
 * task → task business logic
 * user → user entity
 * exception → global error handling
+* docker → Docker configuration (PostgreSQL)
 
 ### Frontend
 
@@ -187,7 +230,6 @@ config.setAllowedOrigins(List.of(
 ## Future Improvements
 
 * Deploy (Docker / Cloud)
-* Persistent database (PostgreSQL/MySQL)
 * Refresh Token
 * UI improvements
 
