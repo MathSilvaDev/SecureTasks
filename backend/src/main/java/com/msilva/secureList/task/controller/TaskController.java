@@ -21,7 +21,6 @@ public class TaskController {
 
     private final TaskService taskService;
 
-
     private UUID getAuthUserId(Authentication auth){
         return UUID.fromString(
                 ((Jwt)auth.getPrincipal()).getClaim("userId")
