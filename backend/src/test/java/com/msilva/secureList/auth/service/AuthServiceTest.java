@@ -1,10 +1,13 @@
 package com.msilva.secureList.auth.service;
 
+import com.msilva.secureList.auth.dto.request.LoginRequest;
 import com.msilva.secureList.auth.dto.request.RegisterRequest;
+import com.msilva.secureList.auth.dto.response.LoginResponse;
 import com.msilva.secureList.role.entity.Role;
 import com.msilva.secureList.role.enums.RoleName;
 import com.msilva.secureList.role.repository.RoleRepository;
 import com.msilva.secureList.security.jwt.JwtService;
+import com.msilva.secureList.security.jwt.dto.TokenData;
 import com.msilva.secureList.user.entity.User;
 import com.msilva.secureList.user.repository.UserRepository;
 import org.junit.jupiter.api.Nested;
@@ -14,6 +17,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -45,12 +53,13 @@ class AuthServiceTest {
     @InjectMocks
     private AuthService authService;
 
+    private final String email = "test@test.test";
+
     @Nested
     class Register{
 
         @Test
         void shouldRegisterWithSuccess(){
-
             RegisterRequest request = new RegisterRequest(
                     "test@test.test",
                     "username",
@@ -78,6 +87,58 @@ class AuthServiceTest {
         }
     }
 
+    @Nested
+    class Login{
 
+        @Test
+        void shouldLoginWithSuccess(){
+            LoginRequest request = new LoginRequest(
+                    email,
+                    "hashPassword"
+            );
 
+            User user = new User(
+                    email,
+                    "username",
+                    "hashPassword"
+            );
+
+            UserDetails userDetails = org.springframework.security.core.userdetails.User
+                    .withUsername(user.getEmail())
+                    .password(user.getPassword())
+                    .authorities("ROLE_BASIC")
+                    .build();
+
+            Authentication authentication =
+                    new UsernamePasswordAuthenticationToken(userDetails, null);
+
+            when(authenticationManager.authenticate(any()))
+                    .thenReturn(authentication);
+
+            when(userRepository.findByEmail(user.getEmail()))
+                    .thenReturn(Optional.of(user));
+
+            when(jwtService.generateToken(user))
+                    .thenReturn(new TokenData("token-test", 300L));
+
+            LoginResponse response = authService.login(request);
+
+            assertEquals("token-test", response.token());
+            assertEquals(300L, response.expiresAt());
+        }
+
+        @Test
+        void shouldThrowWhenAuthenticationFails(){
+            LoginRequest request = new LoginRequest(
+                    email,
+                    "wrongPassword"
+            );
+
+            when(authenticationManager.authenticate(any()))
+                    .thenThrow(new BadCredentialsException("Invalid credentials"));
+
+            assertThrows(BadCredentialsException.class,
+                    () -> authService.login(request));
+        }
+    }
 }
