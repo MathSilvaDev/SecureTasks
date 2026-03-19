@@ -44,6 +44,14 @@ Each user has their own tasks and can create, list, mark as completed, and delet
 
 ---
 
+## 🧪 Testing
+
+* Unit tests written with JUnit 5 and Mockito
+* Focus on AuthService (login/register) and TaskService
+* Mocking used to isolate services from repositories and external dependencies
+
+---
+
 ## ⚙️ Requirements
 
 Install:
@@ -201,7 +209,7 @@ config.setAllowedOrigins(List.of(
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 ### Login
 
@@ -218,20 +226,12 @@ config.setAllowedOrigins(List.of(
 
 ---
 
-## 📌 Notes
+##  Notes
 
 * Project focused on learning secure backend development
 * Stateless authentication using JWT
 * Layered architecture (controller, service, repository)
 * Simple frontend just for API consumption
-
----
-
-## Future Improvements
-
-* Deploy (Docker / Cloud)
-* Refresh Token
-* UI improvements
 
 ---
 
