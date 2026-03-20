@@ -1,5 +1,6 @@
 package com.msilva.secureList.task.service;
 
+import com.msilva.secureList.task.dto.request.CreateTaskRequest;
 import com.msilva.secureList.task.dto.response.TaskResponse;
 import com.msilva.secureList.task.entity.Task;
 import com.msilva.secureList.task.factory.TestDataFactory;
@@ -12,11 +13,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,5 +58,39 @@ class TaskServiceTest {
         }
     }
 
+    @Nested
+    class Create{
 
+        @Test
+        void shouldCreateTaskSuccessfully(){
+
+            CreateTaskRequest request = TestDataFactory.createTaskRequest();
+
+            User user = TestDataFactory.user();
+            UUID userId = user.getId();
+
+            when(userRepository.findById(userId))
+                    .thenReturn(Optional.of(user));
+
+            TaskResponse response = taskService.create(userId, request);
+
+            assertEquals(request.title(), response.title());
+            assertEquals(request.description(), response.description());
+
+            verify(userRepository).findById(userId);
+            verify(taskRepository).save(any(Task.class));
+        }
+
+        @Test
+        void shouldThrowWhenUserNotFound(){
+
+            UUID userId = UUID.randomUUID();
+
+            when(userRepository.findById(userId))
+                    .thenReturn(Optional.empty());
+
+            assertThrows(ResponseStatusException.class,
+                    () -> taskService.create(userId, TestDataFactory.createTaskRequest()));
+        }
+    }
 }
