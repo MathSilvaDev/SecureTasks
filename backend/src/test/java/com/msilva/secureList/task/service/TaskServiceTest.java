@@ -93,4 +93,25 @@ class TaskServiceTest {
                     () -> taskService.create(userId, TestDataFactory.createTaskRequest()));
         }
     }
+
+    @Nested
+    class Delete{
+
+        @Test
+        void shouldDeleteTaskSuccessfully(){
+            User user = TestDataFactory.user();
+            Task task = TestDataFactory.task(user);
+
+            Long id = task.getId();
+            UUID userId = user.getId();
+
+            when(taskRepository.findByIdAndUserId(id, userId))
+                    .thenReturn(Optional.of(task));
+
+            taskService.deleteByIdAndUserId(id, userId);
+
+            verify(taskRepository).delete(task);
+        }
+
+    }
 }
