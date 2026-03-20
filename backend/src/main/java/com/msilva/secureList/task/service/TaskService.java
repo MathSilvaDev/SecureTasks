@@ -8,7 +8,6 @@ import com.msilva.secureList.user.entity.User;
 import com.msilva.secureList.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -23,7 +22,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
 
-    public List<TaskResponse> findAllByUser(UUID userId){
+    public List<TaskResponse> findAllByUserId(UUID userId){
 
         return taskRepository.findAllByUserId(userId)
                 .stream()
@@ -54,7 +53,7 @@ public class TaskService {
     }
 
     @Transactional
-    public void deleteByIdAndUser(Long id, UUID userId){
+    public void deleteByIdAndUserId(Long id, UUID userId){
         Task task = findTaskByIdAndUserId(id, userId);
 
         taskRepository.delete(task);

@@ -28,12 +28,12 @@ public class TaskController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<TaskResponse>> findAllByUser(Authentication auth){
+    public ResponseEntity<List<TaskResponse>> findAllByUserId(Authentication auth){
 
         UUID userId = getAuthUserId(auth);
 
         return ResponseEntity
-                .ok(taskService.findAllByUser(userId));
+                .ok(taskService.findAllByUserId(userId));
     }
 
     @PostMapping
@@ -56,11 +56,11 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteByIdAndUser(@PathVariable Long id,
-                                                  Authentication auth){
+    public ResponseEntity<Void> deleteByIdAndUserId(@PathVariable Long id,
+                                                    Authentication auth){
         UUID userId = getAuthUserId(auth);
 
-        taskService.deleteByIdAndUser(id, userId);
+        taskService.deleteByIdAndUserId(id, userId);
         return ResponseEntity.noContent().build();
     }
 }
