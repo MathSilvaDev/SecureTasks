@@ -1,6 +1,6 @@
-# Task Manager (Fullstack)
+# SecureList - Task Manager (Fullstack)
 
-Fullstack application for task management with JWT-based authentication.
+Fullstack task management application with secure JWT-based authentication and user data isolation.
 Each user has their own tasks and can create, list, mark as completed, and delete them.
 
 > Backend is the main focus (Spring Security + JWT + OAuth2 Resource Server).
@@ -32,7 +32,7 @@ Each user has their own tasks and can create, list, mark as completed, and delet
 
 * User registration
 * Login with JWT token generation
-* Authentication via Bearer Token
+* Authentication via Bearer Token (JWT - RSA signed)
 * Task management:
 
   * Create task
@@ -44,10 +44,36 @@ Each user has their own tasks and can create, list, mark as completed, and delet
 
 ---
 
+## 🔗 API Endpoints
+
+### Auth
+POST /api/auth/register  
+Request: { "email": "example@example.com", "username": "at least 3 characters", "password": "at least 8 characters" }
+
+POST /api/auth/login  
+Request: { "email": "example@example.com", "password": "yourPassword" }  
+Response: { "token": "JWT_TOKEN", "expiresAt": 300 }
+
+### Tasks
+GET /api/tasks/all  
+
+POST /api/tasks  
+Request: { "title": "at least 3 characters", "description": "at least 3 characters" }
+
+PATCH /api/tasks/{id}/completed  
+DELETE /api/tasks/{id}  
+
+### Notes
+- Authentication via JWT (Bearer Token)
+- Use: Authorization: Bearer <token>
+- userId is extracted from the JWT
+- All task endpoints require authentication
+---
+
 ## 🧪 Testing
 
 * Unit tests written with JUnit 5 and Mockito
-* Focus on AuthService (login/register) and TaskService
+* Unit tests covering AuthService and TaskService
 * Mocking used to isolate services from repositories and external dependencies
 
 ---
@@ -194,7 +220,7 @@ config.setAllowedOrigins(List.of(
 
 ### Backend
 
-* auth → authentication (login/register)
+* auth → authentication (login and registration)
 * security → JWT and Spring Security configuration
 * task → task business logic
 * user → user entity
@@ -232,6 +258,10 @@ config.setAllowedOrigins(List.of(
 * Stateless authentication using JWT
 * Layered architecture (controller, service, repository)
 * Simple frontend just for API consumption
+
+- Access tokens have an extended expiration time for simplicity
+- Refresh token flow was not implemented in this version
+- In production, a short-lived access token + refresh token strategy is recommended
 
 ---
 
