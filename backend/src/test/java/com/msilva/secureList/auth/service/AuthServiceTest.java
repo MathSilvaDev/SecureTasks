@@ -1,15 +1,16 @@
 package com.msilva.secureList.auth.service;
 
-import com.msilva.secureList.auth.dto.request.LoginRequest;
-import com.msilva.secureList.auth.dto.request.RegisterRequest;
-import com.msilva.secureList.auth.dto.response.LoginResponse;
-import com.msilva.secureList.role.entity.Role;
-import com.msilva.secureList.role.enums.RoleName;
-import com.msilva.secureList.role.repository.RoleRepository;
-import com.msilva.secureList.security.jwt.JwtService;
-import com.msilva.secureList.security.jwt.dto.TokenData;
-import com.msilva.secureList.user.entity.User;
-import com.msilva.secureList.user.repository.UserRepository;
+import com.msilva.secureList.application.auth.dto.request.LoginRequest;
+import com.msilva.secureList.application.auth.dto.request.RegisterRequest;
+import com.msilva.secureList.application.auth.dto.response.LoginResponse;
+import com.msilva.secureList.application.auth.service.AuthService;
+import com.msilva.secureList.domain.role.entity.Role;
+import com.msilva.secureList.domain.role.enums.RoleName;
+import com.msilva.secureList.domain.role.repository.RoleRepository;
+import com.msilva.secureList.infrastructure.security.jwt.JwtService;
+import com.msilva.secureList.infrastructure.security.jwt.dto.TokenData;
+import com.msilva.secureList.domain.user.entity.User;
+import com.msilva.secureList.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +21,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

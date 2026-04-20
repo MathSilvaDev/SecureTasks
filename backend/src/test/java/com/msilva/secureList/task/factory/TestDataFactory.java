@@ -1,8 +1,8 @@
 package com.msilva.secureList.task.factory;
 
-import com.msilva.secureList.task.dto.request.CreateTaskRequest;
-import com.msilva.secureList.task.entity.Task;
-import com.msilva.secureList.user.entity.User;
+import com.msilva.secureList.application.task.dto.request.CreateTaskRequest;
+import com.msilva.secureList.domain.task.entity.Task;
+import com.msilva.secureList.domain.user.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
